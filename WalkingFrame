@@ -1,0 +1,102 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import javax.swing.*;
+
+public class WalkingFrame extends JFrame implements ActionListener
+{
+	Man man;
+	ArrayList<Ball> Ball;
+	
+	public WalkingFrame()
+	{
+		setBounds(100,100,600,400);
+		setLayout(null);
+		
+		man = new Man(0,0);
+		add(man);
+
+		Timer timer = new Timer(10,this);
+		timer.start();
+		
+		Ballins = new ArrayList<Ballin>();
+		addKeyListener(new KeyListener()
+		{
+
+			public void keyPressed(KeyEvent e) 
+			{
+				if(e.getKeyCode() == e.VK_W)
+				{
+					man.setDy(-4);
+				}
+				if(e.getKeyCode() == e.VK_S)
+				{
+					man.setDy(4);
+				}
+				if(e.getKeyCode() == e.VK_A)
+				{
+					man.setDx(-4);
+				}		
+				if(e.getKeyCode() == e.VK_D)
+				{
+					man.setDx(4);
+				}
+				if(e.getKeyCode() == e.VK_SPACE)
+				{
+					Ball newBall = new Ball(man.getX() + 10, man.getY() + 10);
+					Ball.add(newBall);
+					add(newBall);
+				}
+						
+			}
+
+					@Override
+			public void keyReleased(KeyEvent e) 
+			{
+				if(e.getKeyCode() == e.VK_W)
+				{
+					man.setDy(0);
+				}
+				if(e.getKeyCode() == e.VK_S)
+				{
+					man.setDy(0);	
+				}
+				if(e.getKeyCode() == e.VK_A)
+				{
+					man.setDx(0);
+				}
+				if(e.getKeyCode() == e.VK_D)
+				{
+					man.setDx(0);	
+				}	
+			}
+
+			public void keyTyped(KeyEvent e) 
+			{
+			}
+					
+		});
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+	}
+	public static void main(String[] args)
+	{
+		new WalkingFrame();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		man.update();
+		for (int i = 0; i < Ball.size(); i++)
+		{
+			Ball.get(i).update();
+			if (Ball.get(i).getX() > 600)
+			{
+				remove(Ball.get(i));
+			}
+		}
+		repaint();
+		
+	}
+}
